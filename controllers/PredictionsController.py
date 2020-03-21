@@ -23,7 +23,9 @@ class PredictionsController :
             "prediction_id": random.randint(100,10000)
         }
 
-        return responde(200,False,"Prediction was successful",response)
+        response = responde(200,False,"Prediction was successful",response) 
+        print("Now o got hereeee")
+        return response
 
     @staticmethod
     def ratePrediction():
