@@ -1,7 +1,7 @@
 Flask==1.1.1
 Flask-SQLAlchemy==2.4.0
 
-mysql-connector-python==2.1.6
+https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.15.tar.gz
 MySQL-python==1.2.5
 mysql-utilities==1.6.4
 numpy==1.16.6
