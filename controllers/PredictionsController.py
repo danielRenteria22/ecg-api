@@ -1,4 +1,5 @@
-from app import jsonify,request,Response
+from app import request
+from .ResponseHelper import responde
 import random
 
 class PredictionsController :
@@ -6,7 +7,7 @@ class PredictionsController :
     def predict():
         request.get_json(force=True)
         image = request.json.get("image")
-        if not image:  return Response("No image was sent",status=400)
+        if not image:  return responde(400,True,"No image was sent",None)
 
         # TODO Resultados dummies, se va a pedir el resulrado que
         # que se quiera obtener. Borrar
@@ -22,22 +23,20 @@ class PredictionsController :
             "prediction_id": random.randint(100,10000)
         }
 
-        return jsonify(response)
+        return responde(200,False,"Prediction was successful",response)
 
     @staticmethod
     def ratePrediction():
         request.get_json(force=True)
         prediction_id = request.json.get("prediction_id")
-        rating = request.json.get("rating")
+        rating = bool(request.json.get("rating"))
 
-        if not prediction_id: return Response("No prediction was sent",status=400)
-        print(not isinstance(rating, bool))
-        if (not rating) or (not isinstance(rating, bool)): return Response("Uniexisting or invalid rating",status=400)
+        if not prediction_id: return responde(400,True,"No prediction id",None)
 
         # Parametro dummy para probar si la evualuacion fue exitosa
         successful =  request.json.get("successful")
 
         if successful:
-            return Response("Rating was succesful",status=200)
+            return responde(200,False,"Rating was sucessful",None)
         else:
-            return Response("Rating was not succesful",status=400)
+            return responde(400,True,"Rating was not successful",None)
