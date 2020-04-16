@@ -1,6 +1,7 @@
 from app import request,ecgModel,np,labels,jsonify
 from .ResponseHelper import responde
-import random
+from models.UserEcg import UserEcg
+from datetime import date
 
 class PredictionsController :
     @staticmethod
@@ -17,12 +18,23 @@ class PredictionsController :
         predictions = ecgModel.predict(np.asarray([x_predict]))
         indexMax = np.argmax(predictions[0])
 
+        new_ecg = UserEcg(
+                points,
+                indexMax,
+                date.today(),
+                None,
+                'some_url',
+                'TRAINING'
+            ).save()
+
         response = {
             "resultIndex": indexMax,
             "result": labels[indexMax],
             "accuracy": float(predictions[0][indexMax]),
-            "prediction_id": random.randint(100,10000)
+            "ecg_id": str(new_ecg._id)
         }
+
+
 
         response = responde(200,False,"Prediction was successful",response) 
         return jsonify(response)
