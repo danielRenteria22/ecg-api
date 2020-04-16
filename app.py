@@ -1,4 +1,8 @@
 from flask import Flask, request, jsonify,Response
+import tensorflow.keras as keras
+import tensorflow as tf
+import numpy as np
+from pymodm import connect, fields, MongoModel, EmbeddedMongoModel
 # app = Flask(__name__)
 
 
@@ -16,6 +20,13 @@ if config_decouple('PRODUCTION', default=False):
 
 app = create_app(enviroment)
 
+connect('mongodb://localhost:27017/ezECG')
+ecgModel = tf.keras.models.load_model('ecg.model')
+labels = ['Non-ecotic beats (normal beat)', 
+'Supraventricular ectopic beats',
+'Ventricular ectopic beats', 
+'Fusion Beats', 
+'Unknown Beats']
 
 @app.route('/')
 def index():
