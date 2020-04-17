@@ -28,7 +28,7 @@ class PredictionsController :
             ).save()
 
         response = {
-            "resultIndex": indexMax,
+            "resultIndex": int(indexMax),
             "result": labels[indexMax],
             "accuracy": float(predictions[0][indexMax]),
             "ecg_id": str(new_ecg._id)
