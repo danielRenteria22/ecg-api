@@ -41,19 +41,21 @@ class PredictionsController :
 
     @staticmethod
     def ratePrediction():
+        from bson.objectid import ObjectId   
         request.get_json(force=True)
-        prediction_id = request.json.get("prediction_id")
+        prediction_id = request.json.get("ecg_id")
         rating = bool(request.json.get("rating"))
 
         if not prediction_id: return responde(400,True,"No prediction id",None)
+        if rating == None: return responde(400,True,'No rating was provided',None)
 
-        # Parametro dummy para probar si la evualuacion fue exitosa
-        successful =  request.json.get("successful")
+        userEcg =  UserEcg.objects.raw({'_id': ObjectId(prediction_id)})[0]
+        if not userEcg: return responde(404,True,'ECG was not found',None)
+        userEcg.correct_classification = rating
+        userEcg.save()
+        return responde(200,False,'Rating was succesful',None)
 
-        if successful:
-            return responde(200,False,"Rating was sucessful",None)
-        else:
-            return responde(400,True,"Rating was not successful",None)
+        
 
     @staticmethod
     def base64ToImage(data):
