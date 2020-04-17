@@ -76,7 +76,7 @@ class PredictionsController :
 
         width = image.size[0]
         heigth = image.size[1]
-        jump_size = width / sample_size
+        jump_size = int(width / sample_size)
         sample_points = []
         min_heigth = 0
         max_heigth = 0
