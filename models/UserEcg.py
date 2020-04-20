@@ -7,5 +7,5 @@ class UserEcg(MongoModel):
     created_at = fields.DateTimeField()
     correct_classification = fields.BooleanField(default = None,blank=True)
     image_url = fields.CharField()
-    user_id = fields.ReferenceField(User)
+    user_id = fields.ReferenceField(User,blank=True)
     use = fields.CharField(choices=('TRAINING', 'TESTING'))
