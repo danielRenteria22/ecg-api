@@ -47,6 +47,20 @@ class UserController:
         session['userId'] = str(currentUser._id)
         return responde(200,False,'Log in was succesful',currentUser.toJson())
 
+    @staticmethod
+    def userFromSession():
+        from bson.objectid import ObjectId  
+
+        userId = session['userId']
+        if not userId: return None
+
+        try:
+            user =  User.objects.raw({'_id': ObjectId(userId)})[0]
+            return user
+        except:
+            return None
+
+
 
 
 

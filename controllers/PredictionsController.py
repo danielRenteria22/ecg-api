@@ -6,6 +6,7 @@ from datetime import date
 class PredictionsController :
     @staticmethod
     def predict():
+        from .UserController import UserController
         request.get_json(force=True)
         base64Raw = request.json.get("image")
         if not base64Raw:  return responde(400,True,"No image was sent",None)
@@ -18,12 +19,18 @@ class PredictionsController :
         predictions = ecgModel.predict(np.asarray([x_predict]))
         indexMax = np.argmax(predictions[0])
 
+        currentUser = UserController.userFromSession()
+        userId = None
+        if currentUser:
+            userId = currentUser._id
+
         new_ecg = UserEcg(
                 points,
                 indexMax,
                 date.today(),
                 None,
                 'some_url',
+                userId,
                 'TRAINING'
             ).save()
 
@@ -36,8 +43,7 @@ class PredictionsController :
 
 
 
-        response = responde(200,False,"Prediction was successful",response) 
-        return jsonify(response)
+        return responde(200,False,"Prediction was successful",response) 
 
     @staticmethod
     def ratePrediction():
@@ -49,11 +55,13 @@ class PredictionsController :
         if not prediction_id: return responde(400,True,"No prediction id",None)
         if rating == None: return responde(400,True,'No rating was provided',None)
 
-        userEcg =  UserEcg.objects.raw({'_id': ObjectId(prediction_id)})[0]
-        if not userEcg: return responde(404,True,'ECG was not found',None)
-        userEcg.correct_classification = rating
-        userEcg.save()
-        return responde(200,False,'Rating was succesful',None)
+        try:  
+            userEcg =  UserEcg.objects.raw({'_id': ObjectId(prediction_id)})[0]
+            userEcg.correct_classification = rating
+            userEcg.save()
+            return responde(200,False,'Rating was succesful',None)
+        except:
+            return responde(404,True,'ECG was not found',None)
 
         
 
