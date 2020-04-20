@@ -1,4 +1,5 @@
 from app import jsonify,Response
+from .Utils import MyEncoder
 
 
 
@@ -8,5 +9,5 @@ def responde(status,error,message,data):
         "message": message,
         "data": data
     }
-    
-    return responseObject, status
+
+    return jsonify(responseObject), status
