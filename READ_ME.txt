@@ -81,3 +81,47 @@ rating -> fue el resultado correcto o normal
 
 error -> si fue o no exitosa la calificacion
 message -> mensaje del servidor
+
+
+
+3) /register
+- Espera: {
+    name: <string>,
+    email: <string>,
+    password: <string>
+}
+
+- Respuesta (Si todos los datos fueron enviados):
+{
+    error: false,
+    message: <string>,
+    data: {
+        name: <srting>,
+        email: <string>,
+        password: <string> *se lo tengo que quitar gg,
+        isAuthorized: <boolean>,
+        id: <integer>
+    }
+}
+
+data -> es un objeto de tipo User
+isAuthorized -> indica si un usario paso el examen
+
+4) /login
+- Espera {
+    mail: <string>,
+    password: <string>
+}
+
+Respuesta:
+1) Exitosa: {
+    error: false,
+    message <string>,
+    data: <Objeto user como el de register>
+}
+
+2) Fallida: {
+    error: true,
+    message: <string>,
+    data: null
+}
