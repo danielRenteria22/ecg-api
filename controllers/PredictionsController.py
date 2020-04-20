@@ -11,39 +11,42 @@ class PredictionsController :
         base64Raw = request.json.get("image")
         if not base64Raw:  return responde(400,True,"No image was sent",None)
         
-        base64Array = base64Raw.split(',')
-        base64 = base64Array[len(base64Array) - 1]
-        image = PredictionsController.base64ToImage(base64)
-        points = PredictionsController.getSamplepoints(image)
-        x_predict = np.asarray(points)
-        predictions = ecgModel.predict(np.asarray([x_predict]))
-        indexMax = np.argmax(predictions[0])
+        try:
+            base64Array = base64Raw.split(',')
+            base64 = base64Array[len(base64Array) - 1]
+            image = PredictionsController.base64ToImage(base64)
+            points = PredictionsController.getSamplepoints(image)
+            x_predict = np.asarray(points)
+            predictions = ecgModel.predict(np.asarray([x_predict]))
+            indexMax = np.argmax(predictions[0])
 
-        currentUser = UserController.userFromSession()
-        userId = None
-        if currentUser:
-            userId = currentUser._id
+            currentUser = UserController.userFromSession()
+            userId = None
+            if currentUser:
+                userId = currentUser._id
 
-        new_ecg = UserEcg(
-                points,
-                indexMax,
-                date.today(),
-                None,
-                'some_url',
-                userId,
-                'TRAINING'
-            ).save()
+            new_ecg = UserEcg(
+                    points,
+                    indexMax,
+                    date.today(),
+                    None,
+                    'some_url',
+                    userId,
+                    'TRAINING'
+                ).save()
 
-        response = {
-            "resultIndex": int(indexMax),
-            "result": labels[indexMax],
-            "accuracy": float(predictions[0][indexMax]),
-            "ecg_id": str(new_ecg._id)
-        }
+            response = {
+                "resultIndex": int(indexMax),
+                "result": labels[indexMax],
+                "accuracy": float(predictions[0][indexMax]),
+                "ecg_id": str(new_ecg._id)
+            }
 
 
 
-        return responde(200,False,"Prediction was successful",response) 
+            return responde(200,False,"Prediction was successful",response) 
+        except:
+            return response(500,True,'Prediction failed',None)
 
     @staticmethod
     def ratePrediction():
