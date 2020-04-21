@@ -46,7 +46,7 @@ class PredictionsController :
 
             return responde(200,False,"Prediction was successful",response) 
         except:
-            return response(500,True,'Prediction failed',None)
+            return responde(500,True,'Prediction failed',None)
 
     @staticmethod
     def ratePrediction():
