@@ -45,7 +45,7 @@ class PredictionsController :
 
 
             return responde(200,False,"Prediction was successful",response) 
-        except Exception, e:
+        except Exception as e:
             return responde(500,True,'Prediction failed',str(e))
 
     @staticmethod
