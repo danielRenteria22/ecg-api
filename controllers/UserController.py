@@ -51,7 +51,7 @@ class UserController:
     def userFromSession():
         from bson.objectid import ObjectId  
 
-        if not session.has_key('userId'): return None
+        if not 'userId' in session: return None
 
         userId = session['userId']
         if not userId: return None
