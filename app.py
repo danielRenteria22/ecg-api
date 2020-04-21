@@ -56,3 +56,13 @@ def register():
 def login():
     from controllers.UserController import UserController
     return UserController.login() 
+
+@app.route('/createtest', methods=['GET'])
+def createTest():
+    from controllers.TestController import TestController
+    return TestController.generateTest()
+
+@app.route('/ratetest',methods=['POST'])
+def rateTest():
+    from controllers.TestController import TestController
+    return TestController.gradeTest() 
