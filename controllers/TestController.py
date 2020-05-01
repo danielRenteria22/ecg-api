@@ -3,7 +3,6 @@ from .ResponseHelper import responde
 from .UserController import UserController
 from models.ECGModel import ECGModel
 import random
-import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import base64
@@ -65,6 +64,7 @@ class TestController:
     
     @staticmethod
     def getImageFromPoints(points):
+        import matplotlib.pyplot as plt
         matplotlib.use('Agg')
         figure = plt.figure()
         plot = figure.add_subplot (111)
