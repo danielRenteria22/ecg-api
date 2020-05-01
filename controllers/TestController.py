@@ -66,7 +66,8 @@ class TestController:
     def getImageFromPoints(points):
         import matplotlib
         matplotlib.use('Agg')
-        figure = matplotlib.pyplot.figure()
+        import matplotlib.pyplot as plt
+        figure = plt.figure()
         plot = figure.add_subplot (111)
         plot.plot(points)
 
