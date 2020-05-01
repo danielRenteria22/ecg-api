@@ -98,4 +98,4 @@ class TestController:
         image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue())
 
-        return img_str
+        return str(img_str)
