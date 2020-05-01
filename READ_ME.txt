@@ -125,3 +125,37 @@ Respuesta:
     message: <string>,
     data: null
 }
+
+5) /createtest
+NOTA El usuario necesita haberse logeado antes de llamar esta funcion
+
+Respuesta exitosa:
+{
+    error: false,
+    message: <string>
+    data: [
+        {
+            id: <string>,
+            image: <imagen en base64>
+        }
+    ]
+}
+
+6) /ratetest
+Verifica si las respuesta del examen fueron correctas
+Espera: {
+    answers: [
+        {
+            id: <string, id del ecg>,
+            category:  <int, la respuesta del usuario>
+        }
+    ]
+}
+
+Si es exitoso, verifica al usuario en la base de datos
+
+Repuesta: {
+    error: false,
+    message: <string>,
+    data: <user object>
+}
